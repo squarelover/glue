@@ -1,6 +1,7 @@
 # This file contains the bootstraping code for a Monk application.
 RACK_ENV = ENV["RACK_ENV"] ||= "development" unless defined? RACK_ENV
 ROOT_DIR = $0 unless defined? ROOT_DIR
+PROJECT_CLASS ||= Main
 
 # Helper method for file references.
 #
@@ -33,7 +34,7 @@ class Monk::Glue < Sinatra::Base
   configure :development do
     require "monk/glue/reloader"
 
-    use Monk::Glue::Reloader
+    use Monk::Glue::Reloader, PROJECT_CLASS
   end
 
   configure :development, :test do

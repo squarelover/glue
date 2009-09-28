@@ -1,7 +1,13 @@
 class Monk::Glue::Reloader
   def initialize(app, app_class = Main)
     @app = app
-    @app_class = app_class
+    if app_class.is_a? String
+      @app_class = constant.const_get(name)
+    elsif app_class.is_a? Proc
+      @app_class = app_class.call
+    else
+      @app_class = app_class
+    end
     @last = last_mtime
   end
 
